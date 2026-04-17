@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env
+.env
+*.env
+
+# Django
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+staticfiles/
+
+# Nginx
+*.log
