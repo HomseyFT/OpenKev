@@ -86,12 +86,12 @@ class ChatBar(QWidget):
         self.send_button.setEnabled(False)
 
         self.chat_window.add_message(
-            MessageWidget("You", text, is_self=True, parent=self.chat_window)
+            MessageWidget("You", text, "static/user.png", is_self=True, parent=self.chat_window)
         )
         self._history.append({"role": "user", "content": text})
 
         self._pending_widget = MessageWidget(
-            "KevPilot", PENDING_PLACEHOLDER, is_self=False, parent=self.chat_window
+            "KevPilot", PENDING_PLACEHOLDER, "static/kev.png",is_self=False, parent=self.chat_window
         )
         self.chat_window.add_message(self._pending_widget)
 
