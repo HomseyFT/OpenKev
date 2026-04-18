@@ -1,41 +1,55 @@
-"""Scrollable chat surface that hosts MessageWidget bubbles."""
+"""Main entrypoint for the Keems chat UI."""
+
+import sys
+import threading
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from message import MessageWidget
 
+from chatwindow import ChatWindow
+from chatbar import ChatBar
+from recvMessage import MessageReceiver
+from sendMessage import sendMessage
 
-class ChatWindow(QWidget):
-    """A vertically scrolling chat container.
+class KeemsWindow(QMainWindow):
+    def __init__(self) -> None:
+        super().__init__()
+        self.setWindowTitle("Keems")
+        self.resize(900, 700)
 
-    Messages are appended at the bottom and a trailing stretch keeps early
-    messages pinned to the top until the container fills.
-    """
+        central_widget = QWidget(self)
+        central_layout = QVBoxLayout(central_widget)
+        central_layout.setContentsMargins(0, 0, 0, 0)
+        central_layout.setSpacing(0)
 
-    def __init__(self, parent: QWidget | None = None) -> None:
-        super().__init__(parent)
+        self.chat_window = ChatWindow(self)
+        self.chat_bar = ChatBar(self.chat_window)
 
-        main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(0, 0, 0, 0)
+        central_layout.addWidget(self.chat_window, stretch=1)
+        central_layout.addWidget(self.chat_bar)
 
-        self.scroll_area = QScrollArea()
-        self.scroll_area.setWidgetResizable(True)
-        self.scroll_area.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        self.setCentralWidget(central_widget)
+
+        self.receiver = MessageReceiver()
+        self.receiver.message_received.connect(self.receive_remote_message)
+
+    def receive_remote_message(self, username: str, message: str) -> None:
+        self.chat_window.add_message(
+            MessageWidget(username, message, is_self=False)
         )
 
-        self.container = QWidget()
-        self.chat_layout = QVBoxLayout(self.container)
-        self.chat_layout.setSpacing(5)
-        self.chat_layout.addStretch()  # trailing stretch keeps messages top-aligned
+def main() -> int:
+    app = QApplication(sys.argv)
+    window = KeemsWindow()
+    window.show()
 
-        self.scroll_area.setWidget(self.container)
-        main_layout.addWidget(self.scroll_area)
+    #Starting window as a thread
+    ws_thread = threading.Thread(target=window.receiver.run, daemon=True)
+    ws_thread.start()
 
-    def add_message(self, message_widget: QWidget) -> None:
-        """Append a message bubble above the trailing stretch."""
-        self.chat_layout.insertWidget(self.chat_layout.count() - 1, message_widget)
-        self.scroll_to_bottom()
+    return app.exec()
 
-    def scroll_to_bottom(self) -> None:
-        scrollbar = self.scroll_area.verticalScrollBar()
-        scrollbar.setValue(scrollbar.maximum())
+
+if __name__ == "__main__":
+    main()
