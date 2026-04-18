@@ -1,0 +1,81 @@
+# ---------------------------------------------------------------------------
+# OpenKev .gitignore
+# ---------------------------------------------------------------------------
+
+# ---- Python bytecode / build artifacts ------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+wheels/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ---- Virtual environments -------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.env
+.envrc
+.python-version
+
+# ---- Test / coverage / type-checker caches --------------------------------
+.pytest_cache/
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+nosetests.xml
+.hypothesis/
+
+# ---- PySide6 / Qt ---------------------------------------------------------
+*.qmlc
+*.jsc
+*.pyi.bak
+
+# ---- Editor / IDE ---------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.DS_Store
+Thumbs.db
+
+
+# ---- Kevcel / WeiWord working artifacts -----------------------------------
+# User-created documents shouldn't be committed. Anything under the repo
+# root ending in these suffixes is treated as scratch output.
+*.kev
+*.kev.bak
+*.xlsx
+*.pdf
+*.docx
+!apps/**/static/*
+
+# ---- Logs / runtime / misc -----------------------------------------------
+*.log
+*.pid
+*.sqlite
+*.sqlite3
+*.db
+
+# ---- OS trash -------------------------------------------------------------
+.Trash-*
+ehthumbs.db
+Icon?
