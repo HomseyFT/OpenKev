@@ -26,6 +26,7 @@ ENV/
 .env
 .envrc
 .python-version
+.ollama-env/*
 
 # ---- Test / coverage / type-checker caches --------------------------------
 .pytest_cache/

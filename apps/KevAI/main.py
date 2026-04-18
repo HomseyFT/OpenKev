@@ -15,9 +15,9 @@ import sys
 sys.path.append("../..")
 
 from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtGui import QIcon
 
 from apps.KevAI.kevai import KevPilot
-
 
 class KevPilotWindow(QMainWindow):
     def __init__(self) -> None:
@@ -26,7 +26,7 @@ class KevPilotWindow(QMainWindow):
         self.resize(900, 700)
         self.module = KevPilot()
         self.setCentralWidget(self.module)
-        self.setWindowIcon("static/kev.png")
+        self.setWindowIcon(QIcon("path/to/icon.png"))
 
 
 def main() -> int:

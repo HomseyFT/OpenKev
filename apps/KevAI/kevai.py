@@ -27,6 +27,7 @@ class KevPilot(KevModule):
         self,
         model: str = DEFAULT_OLLAMA_MODEL,
         parent: QWidget | None = None,
+        
     ) -> None:
         super().__init__(parent)
 
