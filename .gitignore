@@ -59,14 +59,16 @@ nosetests.xml
 Thumbs.db
 
 
-# ---- Kevcel / WeiWord working artifacts -----------------------------------
-# User-created documents shouldn't be committed. Anything under the repo
-# root ending in these suffixes is treated as scratch output.
+# ---- Kevcel / WeiWord / Kevin Compressor working artifacts ----------------
+# User-created documents and compressed outputs shouldn't be committed.
+# Anything under the repo root ending in these suffixes is scratch output.
 *.kev
 *.kev.bak
 *.xlsx
 *.pdf
 *.docx
+*.icj
+*.npz
 !apps/**/static/*
 
 # ---- Logs / runtime / misc -----------------------------------------------
