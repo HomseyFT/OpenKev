@@ -12,6 +12,7 @@ top-level OpenKev navigator when that arrives.
 from __future__ import annotations
 
 import sys
+sys.path.append("../..")
 
 from PySide6.QtWidgets import QApplication, QMainWindow
 
@@ -25,6 +26,7 @@ class KevPilotWindow(QMainWindow):
         self.resize(900, 700)
         self.module = KevPilot()
         self.setCentralWidget(self.module)
+        self.setWindowIcon("static/kev.png")
 
 
 def main() -> int:
