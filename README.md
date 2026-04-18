@@ -15,7 +15,7 @@ tabbed navigator later.
 | Kevcel             | Excel clone                                 | **Working** (formulas, sheets, styles, CSV/XLSX/PDF/HTML I/O) |
 | Kev Teams          | SimpleX-based messaging                     | Not started                        |
 | Kev Calendar       | Calendar                                    | Not started                        |
-| Kevin Compressor   | Image compressor                            | Pre-existing (separate project)    |
+| Kevin Compressor   | Image compressor (DCT + Huffman, grayscale) | **Working** (PySide6 front-end over external compression.py backend) |
 | Navigator shell    | Top-level app switcher                      | Not started (`apps/main.py` empty) |
 
 ## Repository layout
@@ -62,10 +62,15 @@ OpenKev/
             ├── formula_bar.py ← active-cell reference + formula editor
             ├── toolbar.py     ← formatting toolbar
             └── workbook_view.py ← per-workbook container
+    └── KevinCompressor/
+        ├── main.py         ← standalone launcher (python -m apps.KevinCompressor.main)
+        ├── kevin_compressor.py ← KevModule subclass (Compress/Decompress tabs)
+        └── backend.py      ← subprocess wrapper + QThread worker over compression.py
 
 tests/                      ← pytest suite (see "Testing" below)
 ├── conftest.py
-└── test_kevcel/            ← 80+ core-engine and I/O tests
+├── test_kevcel/            ← Kevcel core + I/O
+└── test_kevin_compressor/  ← Kevin Compressor backend adapter
 ```
 
 ## Module contract
@@ -109,13 +114,18 @@ python -m apps.KevAI.main
 
 # Kevcel
 python -m apps.Kevcel.main
+
+# Kevin Compressor — requires the external codec (see below)
+python -m apps.KevinCompressor.main
 ```
 
 ## Testing
 
-A `pytest` suite lives under `tests/`. The suite currently covers the full
-Kevcel core engine and I/O layer (80+ assertions); new apps should add their
-own subdirectories as they land.
+A `pytest` suite lives under `tests/`. Coverage currently includes the full
+Kevcel core engine + I/O layer and the Kevin Compressor backend adapter,
+including an end-to-end compress/decompress round-trip that is auto-skipped
+if the external codec isn't installed. New apps should add their own
+`tests/test_<name>/` subdirectory as they land.
 
 ```bash
 python -m pytest tests          # run everything
@@ -180,6 +190,33 @@ line to determine the variant:
   an HTML table fragment intended for embedding inside a WeiWord document.
 * Unsaved-changes prompt is per workbook; dirty workbooks show a ``*``
   marker on their outer tab title.
+
+## Kevin Compressor behavior
+
+Kevin Compressor is a thin **front-end** over the pre-existing
+`Image-Compression-Project/compression.py` codec. OpenKev doesn't re-implement
+compression — it shells out to that script via `subprocess`.
+
+* Two inner tabs: **Compress** and **Decompress**.
+* Compress tab offers a format picker (`ICJ` Huffman container or raw `NPZ`)
+  and a `[1, 100]` JPEG-style quality slider.
+* Every job runs on a `QThread` so the UI stays responsive on large images.
+* After a successful compression, the file is automatically round-tripped
+  back to a temp PNG so the "Reconstructed" preview shows the actual lossy
+  output at the chosen quality.
+* The backend is **grayscale-only** — color inputs are flattened to `L` mode
+  by the codec; this is surfaced in the banner.
+
+### Backend path resolution
+
+The module looks for `compression.py` in this order:
+
+1. `$KEVIN_COMPRESSOR_SCRIPT` environment variable (absolute path).
+2. `~/Coding_Projects/Image-Compression-Project/compression.py` (default).
+3. `<sibling-of-OpenKev>/Image-Compression-Project/compression.py`.
+
+If none exist, the status bar shows an actionable error describing where it
+looked. Set `KEVIN_COMPRESSOR_SCRIPT` to force a specific path.
 
 ## KevPilot behavior
 
