@@ -72,8 +72,13 @@ class ChatBar(QWidget):
 
     def send_message(self) -> None:
         text = self.input.text().strip()
-        sendMessage(text, self.KeemsWindow, self.chat_window)
-        # self.chat_window.add_message(MessageWidget("You", text, parent=self.chat_window, is_self=True))
+        
+        status = sendMessage(text, self.KeemsWindow.ip_bar.getText)
+        if status == True:
+            self.chat_window.add_message(MessageWidget("You", text, parent=self.chat_window, is_self=True))
+        else:
+            exmsg = "Could not send message for reason: \n " + str(status)
+            self.chat_window.add_message(MessageWidget("Error ⚠️", exmsg, is_self=True, error=True))
 
         self.input.clear()
         self.send_button.setEnabled(False)

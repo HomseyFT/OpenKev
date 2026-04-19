@@ -1,20 +1,33 @@
 from websockets.sync.client import connect
 from message import MessageWidget
+import json
 
-def sendMessage(text, KeemsWindow, chatWindow):
+# import os
+# print(os.system('ipconfig'))
+
+remoteHost = "24.34.85.72"
+
+def sendMessage(text, ip):
     try:
-        ip = KeemsWindow.ip_bar.getText
         print("IP: ", ip)
         if ip == None or ip == "": 
             raise Exception("Recipient IP is required")
-        with connect(f"ws://{ip}:8765") as websocket:
-            websocket.send(text)
+        payload = {
+            "headers": {"to_ip": ip, "from_ip": "N/A"},
+            "body": text
+        }
+
+        with connect(f"ws://{remoteHost}:8260") as websocket:
+            websocket.send(json.dumps(payload))
+            # print(f"Message to IP {ip} sent through remote host {remoteHost}")
             message = websocket.recv()  
             print(f"Received: {message}")
-            if text == message:
-                print("Message recived s    uccessfully")
-                chatWindow.add_message(MessageWidget("You", text, is_self=True))
+            if payload == message:
+                return True
+                # print("Message recived successfully")
+                # chatWindow.add_message(MessageWidget("You", text, is_self=True))
     except Exception as ex:
+        return ex
         exmsg = "Could not send message for reason: \n " + str(ex)
         chatWindow.add_message(MessageWidget("Error ⚠️", exmsg, is_self=True, error=True))
 
