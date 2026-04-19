@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KevFlix</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="logo">KevFlix</div>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#browse">Browse</a>
+        <a href="#mascot">Mascot</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">Original streaming from KevFlix</p>
+        <h1>All your Kevin Content, in once place</h1>
+        <p class="hero-description">
+          Discover top picks, new releases, and unique Weinman content
+        </p>
+        <div class="hero-actions">
+          <button id="playButton">Play Now</button>
+          <button id="browseButton">Browse Library</button>
+        </div>
+      </div>
+
+      <div class="mascot-panel" id="mascot">
+        <div class="mascot-label">The Man and Myth</div>
+        <div class="mascot-card">
+          <div class="mascot-image-placeholder">
+            <!-- <span>Place Mascot Image Here</span> -->
+             <image src="content/Kevin.jpg"> </image>
+          </div>
+          <p class="mascot-caption">5th (I think) President of Marist Univeristy </p>
+        </div>
+      </div>
+    </section>
+
+    <main class="content" id="browse">
+      <div class="featured-video">
+        <div class="featured-video-player">
+          <video id="featuredVideo" controls preload="metadata" poster="https://i3.ytimg.com/vi/2zTASdnWUs8/maxresdefault.jpg" autoplay muted>
+            <source src="content/WhoIsKevinWeinman.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="featured-video-info">
+          <div class="section-header">
+            <h2>Featured Picks</h2>
+            <p>Hand-picked speeches and interviews for only the most die hard Kev fans.</p>
+          </div>
+          <!-- <div class="video-meta">
+            <h3 id="videoTitle">Red Runner</h3>
+            <p id="videoDescription">Fast-paced original with action and adventure.</p>
+            <button id="videoPlayButton">Play Trailer</button>
+          </div> -->
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <article class="card" data-video="content/KevinSpeechVid.mp4"  data-image="https://i3.ytimg.com/vi/0F518mOt0Mg/maxresdefault.jpg">
+          <div class="card-image"></div>
+          <h3>Marist College 76th Commencement</h3>
+          <p>Saturday May 21st, 2022
+Dr. Kevin C. Weinman - Address to Graduates
+.</p>
+          <button class="watch-button">Watch</button>
+        </article>
+        <article class="card" data-video="content/KevinInterview.mp4" data-image="https://i3.ytimg.com/vi/pwcVVSRHxTs/maxresdefault.jpg">
+          <div class="card-image"></div>
+          <h3>Transparency: A Tell-All with President Weinman of Marist College</h3>
+          <p>Marist Fashion's Silver Needle Runway</p>
+          <button class="watch-button">Watch</button>
+        </article>
+        <article class="card" data-video="content/KevinSpeechVid2.mp4" data-image="https://i3.ytimg.com/vi/EwjM1DaoUsk/maxresdefault.jpg">
+          <div class="card-image"></div>
+          <h3>Marist University 79th Commencement Exercises</h3>
+          <p>President Kevin C. Weinman, Saturday May 24th, 2025</p>
+          <button class="watch-button">Watch</button>
+        </article>
+
+        </article>
+        <article class="card" data-video="content/WhoIsKevinWeinman.mp4" data-image="https://i3.ytimg.com/vi/2zTASdnWUs8/maxresdefault.jpg">
+          <div class="card-image"></div>
+          <h3>Who is Kevin Weinman?</h3>
+          <p>Marist University</p>
+          <button class="watch-button">Watch</button>
+        </article>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

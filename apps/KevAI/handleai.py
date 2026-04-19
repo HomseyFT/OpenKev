@@ -20,7 +20,7 @@ class AIWorker(QThread):
         model: str,
         messages: list[dict],
         host: str = "http://127.0.0.1:11434",
-        soul_path: str | None = "soul.md",
+        soul_path: str | None = os.path.join(os.path.dirname(__file__), "soul.md"),
         parent=None,
     ) -> None:
         super().__init__(parent)
