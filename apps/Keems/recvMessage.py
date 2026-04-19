@@ -27,7 +27,7 @@ class MessageReceiver(QObject):
 
     async def main(self) -> None:
         print("Waiting for messages...")
-        async with serve(self.handleRecv, "0.0.0.0", 8261):
+        async with serve(self.handleRecv, "0.0.0.0", 8260):
             await asyncio.Future()  # run forever
         # async with serve(self.handleRecv, "localhost", 8765) as server:
         #     await server.serve_forever()
