@@ -13,16 +13,13 @@ class ChatBar(QWidget):
     def __init__(
         self,
         chat_window: ChatWindow,
+        ip_bar,
         parent: QWidget | None = None,
-    ) -> None:
+) -> None:
         super().__init__(parent)
         self.chat_window = chat_window
-        self.KeemsWindow = parent
+        self.ip_bar = ip_bar
         self.setFixedHeight(80)
-
-        # Conversation history for multi-turn context
-        self._history: list[dict] = []
-        self._pending_widget: MessageWidget | None = None
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
@@ -67,14 +64,11 @@ class ChatBar(QWidget):
 
         layout.addWidget(self.input)
         layout.addWidget(self.send_button)
-
     # ----- slots --------------------------------------------------------
 
-    def send_message(self) -> None:
+    def send_message(self):
         text = self.input.text().strip()
-        sendMessage(text, self.KeemsWindow, self.chat_window)
-        # self.chat_window.add_message(MessageWidget("You", text, parent=self.chat_window, is_self=True))
-
+        sendMessage(text, self.ip_bar.getText, self.chat_window)
         self.input.clear()
         self.send_button.setEnabled(False)
 

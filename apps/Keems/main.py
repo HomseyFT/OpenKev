@@ -23,8 +23,8 @@ class KeemsWindow(QMainWindow):
         central_layout.setSpacing(0)
 
         self.chat_window = ChatWindow(self)
-        self.chat_bar = ChatBar(parent=self, chat_window=self.chat_window)
         self.ip_bar = IpBar(self.chat_window)
+        self.chat_bar = ChatBar(parent=self, chat_window=self.chat_window, ip_bar=self.ip_bar)
 
         central_layout.addWidget(self.ip_bar)
         central_layout.addWidget(self.chat_window, stretch=1)
