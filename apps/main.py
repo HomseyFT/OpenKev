@@ -118,7 +118,7 @@ APP_REGISTRY: list[tuple[str, callable]] = [
 # Home page
 # ---------------------------------------------------------------------------
 
-LOGO_PATH = os.path.join(os.path.dirname(__file__), "static", "logo.png")
+LOGO_PATH = os.path.join(os.path.dirname(__file__), "static", "Kdubs.png")
 
 
 class HomePage(QWidget):
