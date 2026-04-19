@@ -80,8 +80,8 @@ def _make_keems(parent) -> QWidget:
     layout.setSpacing(0)
 
     chat_window = ChatWindow(container)
-    chat_bar = ChatBar(parent=container, chat_window=chat_window, ip_bar=ip_bar)
     ip_bar = IpBar(chat_window)
+    chat_bar = ChatBar(parent=container, chat_window=chat_window, ip_bar=ip_bar)
 
     layout.addWidget(ip_bar)
     layout.addWidget(chat_window, stretch=1)
