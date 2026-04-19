@@ -10,8 +10,7 @@ from message import MessageWidget
 from chatwindow import ChatWindow
 from chatbar import ChatBar
 from recvMessage import MessageReceiver
-from sendMessage import sendMessage
-
+from ipbar import IpBar
 class KeemsWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
@@ -24,8 +23,10 @@ class KeemsWindow(QMainWindow):
         central_layout.setSpacing(0)
 
         self.chat_window = ChatWindow(self)
-        self.chat_bar = ChatBar(self.chat_window)
+        self.chat_bar = ChatBar(parent=self, chat_window=self.chat_window)
+        self.ip_bar = IpBar(self.chat_window)
 
+        central_layout.addWidget(self.ip_bar)
         central_layout.addWidget(self.chat_window, stretch=1)
         central_layout.addWidget(self.chat_bar)
 
@@ -36,7 +37,7 @@ class KeemsWindow(QMainWindow):
 
     def receive_remote_message(self, username: str, message: str) -> None:
         self.chat_window.add_message(
-            MessageWidget(username, message, is_self=False)
+            MessageWidget(username, message, is_self=False, parent=self.chat_bar)
         )
 
 def main() -> int:

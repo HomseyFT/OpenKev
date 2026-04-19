@@ -17,6 +17,7 @@ class ChatBar(QWidget):
     ) -> None:
         super().__init__(parent)
         self.chat_window = chat_window
+        self.KeemsWindow = parent
         self.setFixedHeight(80)
 
         # Conversation history for multi-turn context
@@ -71,7 +72,7 @@ class ChatBar(QWidget):
 
     def send_message(self) -> None:
         text = self.input.text().strip()
-        sendMessage(text, self.chat_window)
+        sendMessage(text, self.KeemsWindow, self.chat_window)
         # self.chat_window.add_message(MessageWidget("You", text, parent=self.chat_window, is_self=True))
 
         self.input.clear()
