@@ -3,9 +3,9 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QHBoxLayout, QLineEdit, QPushButton, QWidget
 
-from chatwindow import ChatWindow
-from message import MessageWidget
-from sendMessage import sendMessage
+from apps.Keems.chatwindow import ChatWindow
+from apps.Keems.message import MessageWidget
+from apps.Keems.sendMessage import sendMessage
 
 class ChatBar(QWidget):
     """Chat input row: QLineEdit + Send button."""
@@ -13,16 +13,13 @@ class ChatBar(QWidget):
     def __init__(
         self,
         chat_window: ChatWindow,
+        ip_bar,
         parent: QWidget | None = None,
-    ) -> None:
+) -> None:
         super().__init__(parent)
         self.chat_window = chat_window
-        self.KeemsWindow = parent
+        self.ip_bar = ip_bar
         self.setFixedHeight(80)
-
-        # Conversation history for multi-turn context
-        self._history: list[dict] = []
-        self._pending_widget: MessageWidget | None = None
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
@@ -67,11 +64,11 @@ class ChatBar(QWidget):
 
         layout.addWidget(self.input)
         layout.addWidget(self.send_button)
-
     # ----- slots --------------------------------------------------------
 
-    def send_message(self) -> None:
+    def send_message(self):
         text = self.input.text().strip()
+<<<<<<< HEAD
         
         status = sendMessage(text, self.KeemsWindow.ip_bar.getText)
         if status == True:
@@ -80,6 +77,9 @@ class ChatBar(QWidget):
             exmsg = "Could not send message for reason: \n " + str(status)
             self.chat_window.add_message(MessageWidget("Error ⚠️", exmsg, is_self=True, error=True))
 
+=======
+        sendMessage(text, self.ip_bar.getText, self.chat_window)
+>>>>>>> 26a2ae634dd4825259e8f3f2eaa235ae76ea5824
         self.input.clear()
         self.send_button.setEnabled(False)
 

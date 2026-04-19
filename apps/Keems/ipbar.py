@@ -3,9 +3,9 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QHBoxLayout, QLineEdit, QPushButton, QWidget, QLabel
 
-from chatwindow import ChatWindow
-from message import MessageWidget
-from sendMessage import sendMessage
+from apps.Keems.chatwindow import ChatWindow
+from apps.Keems.message import MessageWidget
+from apps.Keems.sendMessage import sendMessage
 
 class IpBar(QWidget):
     """Chat input row: QLineEdit + Send button."""

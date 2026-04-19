@@ -1,4 +1,5 @@
 from websockets.sync.client import connect
+<<<<<<< HEAD
 from message import MessageWidget
 import json
 
@@ -26,12 +27,20 @@ def sendMessage(text, ip):
                 return True
                 # print("Message recived successfully")
                 # chatWindow.add_message(MessageWidget("You", text, is_self=True))
+=======
+from apps.Keems.message import MessageWidget
+
+def sendMessage(text, ip, chatWindow):
+    try:
+        if ip is None or ip == "":
+            raise Exception("Recipient IP is required")
+        with connect(f"ws://{ip}:8765") as websocket:
+            websocket.send(text)
+            message = websocket.recv()
+            if text == message:
+                chatWindow.add_message(MessageWidget("You", text, is_self=True))
+>>>>>>> 26a2ae634dd4825259e8f3f2eaa235ae76ea5824
     except Exception as ex:
         return ex
         exmsg = "Could not send message for reason: \n " + str(ex)
         chatWindow.add_message(MessageWidget("Error ⚠️", exmsg, is_self=True, error=True))
-
-
-    
-
-# hello()

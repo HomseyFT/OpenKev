@@ -5,12 +5,12 @@ import threading
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
-from message import MessageWidget
+from apps.Keems.message import MessageWidget
 
-from chatwindow import ChatWindow
-from chatbar import ChatBar
-from recvMessage import MessageReceiver
-from ipbar import IpBar
+from apps.Keems.chatwindow import ChatWindow
+from apps.Keems.chatbar import ChatBar
+from apps.Keems.recvMessage import MessageReceiver
+from apps.Keems.ipbar import IpBar
 class KeemsWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
@@ -23,8 +23,8 @@ class KeemsWindow(QMainWindow):
         central_layout.setSpacing(0)
 
         self.chat_window = ChatWindow(self)
-        self.chat_bar = ChatBar(parent=self, chat_window=self.chat_window)
         self.ip_bar = IpBar(self.chat_window)
+        self.chat_bar = ChatBar(parent=self, chat_window=self.chat_window, ip_bar=self.ip_bar)
 
         central_layout.addWidget(self.ip_bar)
         central_layout.addWidget(self.chat_window, stretch=1)
