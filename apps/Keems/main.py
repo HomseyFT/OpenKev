@@ -5,12 +5,12 @@ import threading
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
-from message import MessageWidget
+from apps.Keems.message import MessageWidget
 
-from chatwindow import ChatWindow
-from chatbar import ChatBar
-from recvMessage import MessageReceiver
-from ipbar import IpBar
+from apps.Keems.chatwindow import ChatWindow
+from apps.Keems.chatbar import ChatBar
+from apps.Keems.recvMessage import MessageReceiver
+from apps.Keems.ipbar import IpBar
 class KeemsWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()

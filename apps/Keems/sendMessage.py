@@ -1,5 +1,5 @@
 from websockets.sync.client import connect
-from message import MessageWidget
+from apps.Keems.message import MessageWidget
 
 def sendMessage(text, KeemsWindow, chatWindow):
     try:
