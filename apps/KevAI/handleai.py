@@ -3,11 +3,13 @@ from __future__ import annotations
 import httpx
 import ollama
 import os
-from PySide6.QtCore import QThread, Signal
+import re
+import uuid
+from PySide6.QtCore import QThread, QObject, Signal, Slot
 
 
 class AIWorker(QThread):
-    """Streams a chat completion from a local Ollama server on a worker thread."""
+    """Ollama streaming + soul.md"""
 
     token_received = Signal(str)
     finished = Signal(str)
@@ -18,19 +20,23 @@ class AIWorker(QThread):
         model: str,
         messages: list[dict],
         host: str = "http://127.0.0.1:11434",
-        soul_path: str | None = "soul.md",   # 👈 NEW
+        soul_path: str | None = "soul.md",
         parent=None,
     ) -> None:
         super().__init__(parent)
+
+        # LLM config
         self.model = model
         self.messages = messages
         self.host = host
-        self.soul_path = soul_path
-        self._soul_cache: str | None = None
-        self._soul_mtime: float = 0
 
-    # ---------- NEW: Soul loader ----------
-    def _load_soul(self) -> str | None:
+        # Soul prompt
+        self.soul_path = soul_path
+        self._soul_cache = None
+        self._soul_mtime = 0
+
+    # ---------------- SOUL ----------------
+    def _load_soul(self):
         if not self.soul_path:
             return None
 
@@ -41,15 +47,11 @@ class AIWorker(QThread):
                     self._soul_cache = f.read()
                 self._soul_mtime = mtime
             return self._soul_cache
-        except FileNotFoundError:
-            return None
-        except Exception as e:
-            # Don't crash worker for soul issues
-            self.error.emit(f"Failed to load soul.md: {e}")
+        except Exception:
             return None
 
-    # ---------- MODIFIED RUN ----------
-    def run(self) -> None:
+    # ---------------- MAIN ----------------
+    def run(self):
         try:
             client = ollama.Client(host=self.host)
 
@@ -85,10 +87,7 @@ class AIWorker(QThread):
             self.finished.emit("".join(full_parts))
 
         except (httpx.ConnectError, ConnectionError) as exc:
-            self.error.emit(
-                f"Cannot reach Ollama at {self.host}. Is `ollama serve` running? ({exc})"
-            )
-        except ollama.ResponseError as exc:
-            self.error.emit(f"Ollama error: {exc}")
+            self.error.emit(f"Cannot reach Ollama: {exc}")
+
         except Exception as exc:
             self.error.emit(f"Unexpected error: {exc!r}")
