@@ -54,11 +54,18 @@ jobs:
 
       - name: Build executable
         run: |
-          pyinstaller --onefile `
-            --name OpenKev `
-            --add-data "apps/KevAI/static;apps/KevAI/static" `
-            --add-data "apps/KevAI/soul.md;apps/KevAI" `
-            --add-data "apps/static;apps/static" `
+          pip install pyinstaller pyinstaller-hooks-contrib
+          pyinstaller --onefile \
+            --name OpenKev \
+            --hidden-import PySide6 \
+            --hidden-import PySide6.QtCore \
+            --hidden-import PySide6.QtWidgets \
+            --hidden-import PySide6.QtGui \
+            --hidden-import PySide6.QtPrintSupport \
+            --collect-all PySide6 \
+            --add-data "apps/KevAI/static:apps/KevAI/static" \
+            --add-data "apps/KevAI/soul.md:apps/KevAI" \
+            --add-data "apps/static:apps/static" \
             apps/main.py
 
       - name: Upload to release
